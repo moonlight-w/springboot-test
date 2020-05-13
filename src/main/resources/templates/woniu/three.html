@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>MOON</title>
+<link rel="stylesheet" th:href="@{/moon/css/bootstrap.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+</head>
+<body class="bg-a">
+	<div class="container-fluid h-100" id="app">
+		<div class="row">
+			<div class="col text-center bg-warning text-white shadow">websocket</div>
+		</div>
+		<div class="mt-2 border h-75 p-2" id="chatbox" style="overflow : auto"></div>
+		<div class="form-inline mt-2">
+			<input type="text" class="form-control form-control-sm" id="msg">
+			<button class="btn btn-sm btn-outline-success ml-1"
+			onclick="sendmsg();">发送</button>
+
+		</div>
+
+	</div>
+	<!-- js -->
+	<script th:src="@{/moon/js/jquery.js}"></script>
+	<script th:src="@{/moon/js/vue.js}"></script>
+	<script th:src="@{/layer/layer.js}"></script>
+	<script th:inline="javascript">
+		//ws
+		var api="ws://" + location.host + "/push";
+		var ws = new WebSocket(api);
+
+		ws.onmessage = function (e) {
+			$("#chatbox").append("<div>"+e.data+"</div> ");
+			layer.msg("竞价成功");
+		}
+
+		//前端发送
+		function sendmsg() {
+			ws.send("出价:"+$("#msg").val()+"元");
+			$("#msg").val("");
+		}
+	</script>
+</body>
+</html>

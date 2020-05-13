@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.dao.PermitMapper">
+	<resultMap id="BaseResultMap" type="com.moon.entity.Permit">
+		<!-- WARNING - @mbg.generated -->
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="api" jdbcType="LONGVARCHAR" property="api" />
+	</resultMap>
+	<select id="selectApisByUserAccount" resultType="java.lang.String">
+		select P.api
+		from user U
+		inner join user_permit UP
+		on U.id=UP.userId
+		inner join permit
+		P
+		on UP.permitId=p.id
+		where U.account=#{account}
+	</select>
+</mapper>
